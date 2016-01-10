@@ -8,7 +8,9 @@ shared_context 'monitors' do
     {
       'groupme' => { 'token' => 'TEST',
                      'bots' => { 'name' => 'Robot',
-                                 'callback' => 'http://callback' } }
+                                 'callback' => 'http://callback' },
+                     'welcome' => 'This is a welcome message'
+                   }
     }
   end
 
