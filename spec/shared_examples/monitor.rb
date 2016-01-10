@@ -31,7 +31,6 @@ shared_examples 'a monitor' do
 
   describe '.from_bot' do
     it 'creates a monitor from the bot configuration' do
-      allow(bot).to receive(:config).and_return(config)
       allow(GroupMe::Client).to receive(:new).with(token: 'TEST')
         .and_return(client)
 

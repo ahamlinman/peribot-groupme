@@ -11,4 +11,6 @@ shared_context 'monitors' do
                                  'callback' => 'http://callback' } }
     }
   end
+
+  before(:each) { allow(bot).to receive(:config).and_return(config) }
 end

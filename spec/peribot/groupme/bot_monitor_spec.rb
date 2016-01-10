@@ -23,7 +23,6 @@ describe Peribot::GroupMe::BotMonitor do
     end
 
     before(:each) do
-      allow(bot).to receive(:config).and_return(config)
       allow(client).to receive(:groups).and_return(group_list)
     end
 
