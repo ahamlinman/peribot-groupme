@@ -1,7 +1,9 @@
 require 'peribot'
 require 'groupme'
 
+require 'peribot/groupme/monitor'
 require 'peribot/groupme/bot_monitor'
+
 require 'peribot/groupme/version'
 
 module Peribot
