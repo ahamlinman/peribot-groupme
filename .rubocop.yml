@@ -1,0 +1,7 @@
+Style/Documentation:
+  Exclude:
+    - 'lib/peribot/groupme/version.rb'
+
+AllCops:
+  Exclude:
+    - 'bin/**/*'
