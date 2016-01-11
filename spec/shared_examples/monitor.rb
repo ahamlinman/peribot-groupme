@@ -1,8 +1,9 @@
 require 'spec_helper'
-require 'shared_context/monitors'
+require 'shared_context/standard_doubles'
 
 shared_examples 'a monitor' do
-  include_context 'monitors'
+  include_context 'standard doubles'
+  let(:instance) { described_class.new bot, client }
 
   describe '.start' do
     let(:task_double) { instance_double(Concurrent::TimerTask) }

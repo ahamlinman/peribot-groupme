@@ -1,13 +1,14 @@
 require 'spec_helper'
-require 'shared_context/monitors'
+require 'shared_context/standard_doubles'
 require 'shared_examples/monitor'
 
 describe Peribot::GroupMe::WelcomeMonitor do
-  include_context 'monitors'
+  include_context 'standard doubles'
 
   it_behaves_like 'a monitor'
 
   describe '#execute' do
+    let(:instance) { Peribot::GroupMe::WelcomeMonitor.new bot, client }
     let(:known_groups) { %w(1 2) }
     let(:joined_groups) do
       [
