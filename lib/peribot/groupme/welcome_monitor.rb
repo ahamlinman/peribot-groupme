@@ -13,7 +13,7 @@ module Peribot
       # Execute the task of sending any necessary welcome messages.
       def execute
         joined_groups = @client.groups.map { |group| group['group_id'] }
-        known_groups = @bot.store('groupme').value['known_groups']
+        known_groups = @bot.store('groupme').value['known_groups'] || []
 
         new_groups = joined_groups - known_groups
         new_groups.each { |group| welcome_message group }
@@ -34,6 +34,7 @@ module Peribot
       # @param groups [Array<String>] An array of group IDs to save
       def save_groups(groups)
         @bot.store('groupme').swap do |opts|
+          opts['known_groups'] ||= []
           opts['known_groups'] += groups
           opts
         end

@@ -53,5 +53,26 @@ describe Peribot::GroupMe::WelcomeMonitor do
         instance.execute
       end
     end
+
+    context 'with a newly created bot' do
+      let(:store) { Concurrent::Atom.new({}) }
+
+      before(:each) do
+        allow(bot).to receive(:store).with('groupme').and_return(store)
+      end
+
+      it 'sends welcome messages to all groups' do
+        expect(client).to receive(:create_message).twice
+        instance.execute
+      end
+
+      it 'saves the groups' do
+        allow(client).to receive(:create_message)
+
+        instance.execute
+        expect(store.value.keys).to include('known_groups')
+        expect(store.value['known_groups']).to include('1', '2')
+      end
+    end
   end
 end
