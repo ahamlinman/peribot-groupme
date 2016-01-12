@@ -25,5 +25,16 @@ describe Peribot::GroupMe do
 
       Peribot::GroupMe.register_into bot
     end
+
+    it 'raises an error when the bot is not configured' do
+      allow(bot).to receive(:config).and_return(nil)
+
+      allow(bot.sender).to receive(:register)
+      allow(Peribot::GroupMe::BotMonitor).to receive(:start)
+      allow(Peribot::GroupMe::WelcomeMonitor).to receive(:start)
+
+      msg = 'could not obtain GroupMe token (does groupme.conf exist?)'
+      expect { Peribot::GroupMe.register_into bot }.to raise_error(msg)
+    end
   end
 end

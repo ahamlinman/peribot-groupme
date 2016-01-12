@@ -56,6 +56,8 @@ module Peribot
       # Retrieve a GroupMe client based on the token in a bot's config.
       def client(bot)
         ::GroupMe::Client.new token: bot.config['groupme']['token']
+      rescue NoMethodError
+        raise 'could not obtain GroupMe token (does groupme.conf exist?)'
       end
     end
   end
