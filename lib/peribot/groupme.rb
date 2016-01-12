@@ -31,15 +31,25 @@ module Peribot
       bot.sender.register Peribot::GroupMe::Sender
       bot.sender.register Peribot::GroupMe::LikeSender
 
-      Peribot::GroupMe::BotMonitor.start(
-        bot,
-        execution_interval: MONITOR_INTERVAL,
-        timeout_interval: MONITOR_TIMEOUT)
+      start_monitors_for bot
+    end
 
-      Peribot::GroupMe::WelcomeMonitor.start(
-        bot,
-        execution_interval: MONITOR_INTERVAL,
-        timeout_interval: MONITOR_TIMEOUT)
+    class << self
+      private
+
+      # (private)
+      #
+      # Start the bot and welcome monitors for this instance.
+      def start_monitors_for(bot)
+        timer_args = {
+          execution_interval: MONITOR_INTERVAL,
+          timeout_interval: MONITOR_TIMEOUT,
+          run_now: true
+        }
+
+        Peribot::GroupMe::BotMonitor.start bot, **timer_args
+        Peribot::GroupMe::WelcomeMonitor.start bot, **timer_args
+      end
     end
   end
 end
