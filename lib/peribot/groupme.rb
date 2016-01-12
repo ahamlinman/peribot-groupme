@@ -47,8 +47,15 @@ module Peribot
           run_now: true
         }
 
-        Peribot::GroupMe::BotMonitor.start bot, **timer_args
-        Peribot::GroupMe::WelcomeMonitor.start bot, **timer_args
+        Peribot::GroupMe::BotMonitor.start bot, client(bot), **timer_args
+        Peribot::GroupMe::WelcomeMonitor.start bot, client(bot), **timer_args
+      end
+
+      # (private)
+      #
+      # Retrieve a GroupMe client based on the token in a bot's config.
+      def client(bot)
+        ::GroupMe::Client.new token: bot.config['groupme']['token']
       end
     end
   end

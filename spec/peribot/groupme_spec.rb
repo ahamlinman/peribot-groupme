@@ -1,12 +1,14 @@
 require 'spec_helper'
+require 'shared_context/standard_doubles'
 
 describe Peribot::GroupMe do
+  include_context 'standard doubles'
+
   it 'has a version number' do
     expect(Peribot::GroupMe::VERSION).not_to be nil
   end
 
   describe '.register_into' do
-    let(:bot) { instance_double(Peribot::Bot) }
     let(:chain) { instance_double(Peribot::Middleware::Chain) }
 
     before(:each) do

@@ -15,20 +15,13 @@ module Peribot
         # background after a specified interval.
         #
         # @param bot [Peribot::Bot] A Peribot instance
-        def start(bot, options = {})
+        # @param client [GroupMe::Client] A GroupMe client instance
+        def start(bot, client, options = {})
           task = Concurrent::TimerTask.new(options) do
-            monitor = from_bot bot
+            monitor = new bot, client
             monitor.execute
           end
           task.execute
-        end
-
-        # Create an instance of this class solely from a bot. The API token for
-        # the GroupMe client will be pulled from the bot's configuration.
-        #
-        # @param bot [Peribot::Bot] A Peribot instance
-        def from_bot(bot)
-          new bot, ::GroupMe::Client.new(token: bot.config['groupme']['token'])
         end
       end
 
