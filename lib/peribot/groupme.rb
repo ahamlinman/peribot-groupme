@@ -27,11 +27,11 @@ module Peribot
 
     # Register GroupMe components with the given bot. This sets up the bot for
     # communication with GroupMe.
-    def register_into(bot)
+    def register_into(bot, with_monitors: true)
       bot.sender.register Peribot::GroupMe::Sender
       bot.sender.register Peribot::GroupMe::LikeSender
 
-      start_monitors_for bot
+      start_monitors_for bot if with_monitors
     end
 
     class << self

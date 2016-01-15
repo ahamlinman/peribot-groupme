@@ -26,6 +26,17 @@ describe Peribot::GroupMe do
       Peribot::GroupMe.register_into bot
     end
 
+    it 'allows monitors not to be started' do
+      expect(bot.sender).to receive(:register).with(Peribot::GroupMe::Sender)
+      expect(bot.sender).to receive(:register)
+        .with(Peribot::GroupMe::LikeSender)
+
+      expect(Peribot::GroupMe::BotMonitor).to_not receive(:start)
+      expect(Peribot::GroupMe::WelcomeMonitor).to_not receive(:start)
+
+      Peribot::GroupMe.register_into bot, with_monitors: false
+    end
+
     it 'raises an error when the bot is not configured' do
       allow(bot).to receive(:config).and_return(nil)
 
