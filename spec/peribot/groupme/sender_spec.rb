@@ -30,7 +30,7 @@ describe Peribot::GroupMe::Sender do
 
       it 'returns the message for further processing' do
         expect(client).to_not receive(:create_message)
-        expect(instance.process message).to eq(message)
+        expect(instance.process(message)).to eq(message)
       end
     end
   end
