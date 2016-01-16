@@ -12,5 +12,26 @@ describe Peribot::GroupMe::ImageProcessor do
         expect(instance.process(message)).to eq(message)
       end
     end
+
+    context 'with a message containing a GroupMe image URL' do
+      let(:message) do
+        {
+          'group_id' => '1',
+          'text' => 'Test',
+          'image' => 'http://i.groupme.com/123456789'
+        }
+      end
+      let(:reply) do
+        params = [{
+          'type' => 'image',
+          'url' => 'http://i.groupme.com/123456789'
+        }]
+        message.merge('attachments' => params)
+      end
+
+      it 'includes the URL as an image attachment' do
+        expect(instance.process(message)).to eq(reply)
+      end
+    end
   end
 end
