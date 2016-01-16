@@ -5,6 +5,8 @@ require 'peribot/groupme/monitor'
 require 'peribot/groupme/bot_monitor'
 require 'peribot/groupme/welcome_monitor'
 
+require 'peribot/groupme/image_processor'
+
 require 'peribot/groupme/sender'
 require 'peribot/groupme/like_sender'
 
@@ -28,6 +30,8 @@ module Peribot
     # Register GroupMe components with the given bot. This sets up the bot for
     # communication with GroupMe.
     def register_into(bot, with_monitors: true)
+      bot.postprocessor.register Peribot::GroupMe::ImageProcessor
+
       bot.sender.register Peribot::GroupMe::Sender
       bot.sender.register Peribot::GroupMe::LikeSender
 

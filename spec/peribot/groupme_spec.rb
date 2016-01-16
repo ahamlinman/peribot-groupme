@@ -9,13 +9,18 @@ describe Peribot::GroupMe do
   end
 
   describe '.register_into' do
-    let(:chain) { instance_double(Peribot::Middleware::Chain) }
+    let(:postprocessor) { instance_double(Peribot::Middleware::Chain) }
+    let(:sender) { instance_double(Peribot::Middleware::Chain) }
 
     before(:each) do
-      allow(bot).to receive(:sender).and_return(chain)
+      allow(bot).to receive(:postprocessor).and_return(postprocessor)
+      allow(bot).to receive(:sender).and_return(sender)
     end
 
     it 'registers tasks and starts monitors' do
+      expect(bot.postprocessor).to receive(:register)
+        .with(Peribot::GroupMe::ImageProcessor)
+
       expect(bot.sender).to receive(:register).with(Peribot::GroupMe::Sender)
       expect(bot.sender).to receive(:register)
         .with(Peribot::GroupMe::LikeSender)
@@ -27,6 +32,9 @@ describe Peribot::GroupMe do
     end
 
     it 'allows monitors not to be started' do
+      expect(bot.postprocessor).to receive(:register)
+        .with(Peribot::GroupMe::ImageProcessor)
+
       expect(bot.sender).to receive(:register).with(Peribot::GroupMe::Sender)
       expect(bot.sender).to receive(:register)
         .with(Peribot::GroupMe::LikeSender)
@@ -40,6 +48,7 @@ describe Peribot::GroupMe do
     it 'raises an error when the bot is not configured' do
       allow(bot).to receive(:config).and_return(nil)
 
+      allow(bot.postprocessor).to receive(:register)
       allow(bot.sender).to receive(:register)
       allow(Peribot::GroupMe::BotMonitor).to receive(:start)
       allow(Peribot::GroupMe::WelcomeMonitor).to receive(:start)
