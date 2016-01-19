@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require 'uri'
+require 'faraday'
+require 'faraday_middleware'
 
 module Peribot
   module GroupMe
@@ -11,7 +13,8 @@ module Peribot
     # services.
     class ImageProcessor < Peribot::Middleware::Task
       IMAGE_HOST = 'i.groupme.com'.freeze
-      UPLOAD_URL = 'https://image.groupme.com/pictures'.freeze
+      UPLOAD_HOST = 'https://image.groupme.com'.freeze
+      UPLOAD_PATH = '/pictures'.freeze
 
       # Initialize this postprocessor task.
       #
@@ -28,7 +31,7 @@ module Peribot
       def process(message)
         return message unless message['image']
 
-        image_url = get_image_url message['image']
+        image_url = get_groupme_image_url message['image']
         add_image_to_message image_url, message
       end
 
@@ -42,8 +45,46 @@ module Peribot
       # passing the URL as given if it is already a GroupMe image service URL.
       #
       # @param img The item to get an image URL for
-      def get_image_url(img)
-        return img if URI.parse(img).host == IMAGE_HOST
+      def get_groupme_image_url(img)
+        return img if img.respond_to?(:to_str) &&
+                      URI.parse(img).host == IMAGE_HOST
+
+        io = img.respond_to?(:read) ? img : io_from_url(img)
+        groupme_url_from_io io
+      end
+
+      # (private)
+      #
+      # Given an image URL, retrieve an IO object representing the actual
+      # content of the image. Essentially, we are just downloading the image
+      # and creating a StringIO out of it.
+      #
+      # @param img [String] The URL to an image on the web
+      # @return [IO] An IO object containing the image body
+      def io_from_url(img)
+        StringIO.new(Faraday.new(img).get.body)
+      end
+
+      # (private)
+      #
+      # Given an IO object representing an image, upload that image to the
+      # GroupMe image service and return the resulting image URL.
+      #
+      # @param io [IO] An IO object to upload
+      # @return [String] The URL of the uploaded image
+      def groupme_url_from_io(io)
+        conn = Faraday.new(UPLOAD_HOST) do |f|
+          f.request :multipart
+          f.request :url_encoded
+          f.response :json
+          f.adapter :net_http
+        end
+
+        token = @bot.config['groupme']['token']
+        file = Faraday::UploadIO.new(io, 'application/octet-stream')
+
+        res = conn.post UPLOAD_PATH, 'token' => token, 'file' => file
+        res.body['payload']['url']
       end
 
       # (private)
