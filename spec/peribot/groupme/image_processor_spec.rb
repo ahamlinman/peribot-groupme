@@ -68,5 +68,31 @@ describe Peribot::GroupMe::ImageProcessor do
         expect(instance.process(message)).to eq(reply)
       end
     end
+
+    context 'with a message containing an image file' do
+      image_path = File.expand_path('../../fixtures/wow.jpg', __dir__)
+      let(:message) do
+        {
+          'group_id' => '1',
+          'text' => 'From disk!',
+          'image' => File.new(image_path)
+        }
+      end
+      let(:reply) do
+        params = [{
+          'type' => 'image',
+          'url' => 'http://i.groupme.com/123456789'
+        }]
+        message.merge('attachments' => params)
+      end
+
+      it 'includes the GroupMe URL as an image attachment' do
+        body = { 'payload' => { 'url' => 'http://i.groupme.com/123456789' } }
+        stub_request(:post, 'https://image.groupme.com/pictures')
+          .to_return(body: body.to_json)
+
+        expect(instance.process(message)).to eq(reply)
+      end
+    end
   end
 end
