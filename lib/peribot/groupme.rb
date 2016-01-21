@@ -19,7 +19,7 @@ module Peribot
   # plumbing to GroupMe's inputs and outputs.
   module GroupMe
     # The interval between monitor executions, in seconds.
-    MONITOR_INTERVAL = 15
+    MONITOR_INTERVAL = 20
 
     # The interval after which monitor tasks are considered to have failed, in
     # seconds.
