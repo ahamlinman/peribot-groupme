@@ -14,6 +14,8 @@ module Peribot
         bots = @client.bots.map { |bot| bot['group_id'] }
 
         register_new_bots groups, bots
+      rescue => e
+        failure_action e
       end
 
       private

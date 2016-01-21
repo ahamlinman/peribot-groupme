@@ -18,6 +18,8 @@ module Peribot
         new_groups = joined_groups - known_groups
         new_groups.each { |group| welcome_message group }
         save_groups new_groups
+      rescue => e
+        failure_action e
       end
 
       private

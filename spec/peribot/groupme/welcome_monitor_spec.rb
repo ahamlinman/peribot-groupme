@@ -74,5 +74,14 @@ describe Peribot::GroupMe::WelcomeMonitor do
         expect(store.value['known_groups']).to include('1', '2')
       end
     end
+
+    context 'when an exception is raised' do
+      it 'logs the error using the bot' do
+        allow(client).to receive(:groups).and_raise('test exception')
+        expect(bot).to receive(:log)
+
+        instance.execute
+      end
+    end
   end
 end

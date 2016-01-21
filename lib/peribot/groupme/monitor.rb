@@ -39,6 +39,29 @@ module Peribot
       # subclasses to perform actual work.
       def execute
       end
+
+      # A failure action that will be called when exceptions are thrown in
+      # order to print details to stderr.
+      #
+      # @param error [Exception] The error that was raised
+      def failure_action(error)
+        @bot.log "#{self.class}: Error in monitor\n"\
+                 "  => exception = #{error.inspect}\n"\
+                 "  => backtrace:\n#{format_backtrace error.backtrace}"
+      end
+
+      private
+
+      # (private)
+      #
+      # Format an exception backtrace for printing to the log.
+      #
+      # @param backtrace [Array<String>] Lines of the backtrace
+      # @return [String] An indented backtrace with newlines
+      def format_backtrace(backtrace)
+        indent = 5
+        backtrace.map { |line| line.prepend(' ' * indent) }.join("\n")
+      end
     end
   end
 end
