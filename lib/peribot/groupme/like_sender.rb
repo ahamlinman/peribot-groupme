@@ -3,7 +3,7 @@ module Peribot
     # A Peribot sender task to like GroupMe messages. This task accepts
     # messages of a particular format and likes them without performing any
     # further processing.
-    class LikeSender < Peribot::Middleware::Task
+    class LikeSender < Peribot::Processor
       # Initialize this sender task.
       #
       # @param bot [Peribot::Bot] A Peribot instance

@@ -11,7 +11,7 @@ module Peribot
     # Uploads to the image service are required in order to post images to
     # GroupMe - this postprocessor makes this detail more transparent to
     # services.
-    class ImageProcessor < Peribot::Middleware::Task
+    class ImageProcessor < Peribot::Processor
       IMAGE_HOST = 'i.groupme.com'.freeze
       UPLOAD_HOST = 'https://image.groupme.com'.freeze
       UPLOAD_PATH = '/pictures'.freeze

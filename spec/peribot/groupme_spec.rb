@@ -9,8 +9,8 @@ describe Peribot::GroupMe do
   end
 
   describe '.register_into' do
-    let(:postprocessor) { instance_double(Peribot::Middleware::Chain) }
-    let(:sender) { instance_double(Peribot::Middleware::Chain) }
+    let(:postprocessor) { instance_double(Peribot::ProcessorChain) }
+    let(:sender) { instance_double(Peribot::ProcessorChain) }
 
     before(:each) do
       allow(bot).to receive(:postprocessor).and_return(postprocessor)
