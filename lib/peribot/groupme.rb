@@ -7,6 +7,7 @@ require 'peribot/groupme/welcome_monitor'
 
 require 'peribot/groupme/image_processor'
 
+require 'peribot/groupme/bot_sender'
 require 'peribot/groupme/sender'
 require 'peribot/groupme/like_sender'
 
