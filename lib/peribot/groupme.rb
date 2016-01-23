@@ -3,8 +3,8 @@ require 'groupme'
 
 require 'peribot/groupme/bot_sender'
 require 'peribot/groupme/image_processor'
-require 'peribot/groupme/like_sender'
-require 'peribot/groupme/sender'
+require 'peribot/groupme/user_like_sender'
+require 'peribot/groupme/user_sender'
 require 'peribot/groupme/version'
 
 module Peribot
@@ -20,8 +20,8 @@ module Peribot
     def register_into(bot)
       bot.postprocessor.register Peribot::GroupMe::ImageProcessor
 
-      bot.sender.register Peribot::GroupMe::Sender
-      bot.sender.register Peribot::GroupMe::LikeSender
+      bot.sender.register Peribot::GroupMe::UserSender
+      bot.sender.register Peribot::GroupMe::UserLikeSender
     end
   end
 end

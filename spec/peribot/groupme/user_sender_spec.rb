@@ -1,13 +1,13 @@
 require 'spec_helper'
 require 'shared_context/standard_doubles'
 
-describe Peribot::GroupMe::Sender do
+describe Peribot::GroupMe::UserSender do
   include_context 'standard doubles'
-  let(:instance) { Peribot::GroupMe::Sender.new bot }
+  let(:instance) { Peribot::GroupMe::UserSender.new bot }
 
   describe '#initialize' do
     it 'takes a bot as a parameter' do
-      expect(instance).to be_instance_of(Peribot::GroupMe::Sender)
+      expect(instance).to be_instance_of(Peribot::GroupMe::UserSender)
     end
   end
 

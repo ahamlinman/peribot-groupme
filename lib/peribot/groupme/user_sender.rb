@@ -1,9 +1,9 @@
 module Peribot
   module GroupMe
-    # A Peribot sender task to send replies from services to GroupMe.
-    # Currently, messages containing text are supported. Attachments will
-    # likely be supported in the future.
-    class Sender < Peribot::Processor
+    # A Peribot sender task to send replies from services to GroupMe via
+    # messages from the user whose access token is being used for the bot.
+    # Messages containing text and attachments are supported.
+    class UserSender < Peribot::Processor
       # Initialize this sender task.
       #
       # @param bot [Peribot::Bot] A Peribot instance

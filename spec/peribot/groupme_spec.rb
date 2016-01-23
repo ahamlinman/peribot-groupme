@@ -21,9 +21,10 @@ describe Peribot::GroupMe do
       expect(bot.postprocessor).to receive(:register)
         .with(Peribot::GroupMe::ImageProcessor)
 
-      expect(bot.sender).to receive(:register).with(Peribot::GroupMe::Sender)
       expect(bot.sender).to receive(:register)
-        .with(Peribot::GroupMe::LikeSender)
+        .with(Peribot::GroupMe::UserSender)
+      expect(bot.sender).to receive(:register)
+        .with(Peribot::GroupMe::UserLikeSender)
 
       Peribot::GroupMe.register_into bot
     end
