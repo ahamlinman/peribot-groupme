@@ -15,13 +15,25 @@ module Peribot
   module GroupMe
     module_function
 
-    # Register GroupMe components with the given bot. This sets up the bot for
-    # communication with GroupMe.
-    def register_into(bot)
+    # Register GroupMe components with the given bot. This sets up the bot so
+    # that it can reply to GroupMe. Note that it is still the responsibility of
+    # an instance maintainer to determine how to get messages *into* the bot.
+    #
+    # @param bot [Peribot::Bot] A Peribot instance
+    # @param send_as [Symbol] The method to use to send responses. The default
+    #                         is :bots, which replies via bots added to groups.
+    #                         The :user option can be used in order to respond
+    #                         directly as a user.
+    def register_into(bot, send_as: :bots)
       bot.postprocessor.register Peribot::GroupMe::ImageProcessor
 
-      bot.sender.register Peribot::GroupMe::UserSender
-      bot.sender.register Peribot::GroupMe::UserLikeSender
+      case send_as
+      when :bots
+        bot.sender.register Peribot::GroupMe::BotSender
+      when :user
+        bot.sender.register Peribot::GroupMe::UserSender
+        bot.sender.register Peribot::GroupMe::UserLikeSender
+      end
     end
   end
 end

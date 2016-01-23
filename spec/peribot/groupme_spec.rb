@@ -17,16 +17,30 @@ describe Peribot::GroupMe do
       allow(bot).to receive(:sender).and_return(sender)
     end
 
-    it 'registers tasks' do
-      expect(bot.postprocessor).to receive(:register)
-        .with(Peribot::GroupMe::ImageProcessor)
+    context 'when sending as a bot' do
+      it 'registers bot components' do
+        expect(bot.postprocessor).to receive(:register)
+          .with(Peribot::GroupMe::ImageProcessor)
 
-      expect(bot.sender).to receive(:register)
-        .with(Peribot::GroupMe::UserSender)
-      expect(bot.sender).to receive(:register)
-        .with(Peribot::GroupMe::UserLikeSender)
+        expect(bot.sender).to receive(:register)
+          .with(Peribot::GroupMe::BotSender)
 
-      Peribot::GroupMe.register_into bot
+        Peribot::GroupMe.register_into bot
+      end
+    end
+
+    context 'when sending as a user' do
+      it 'registers user components' do
+        expect(bot.postprocessor).to receive(:register)
+          .with(Peribot::GroupMe::ImageProcessor)
+
+        expect(bot.sender).to receive(:register)
+          .with(Peribot::GroupMe::UserSender)
+        expect(bot.sender).to receive(:register)
+          .with(Peribot::GroupMe::UserLikeSender)
+
+        Peribot::GroupMe.register_into bot, send_as: :user
+      end
     end
   end
 end
