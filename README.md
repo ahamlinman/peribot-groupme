@@ -1,16 +1,14 @@
 # Peribot::GroupMe
 
-Peribot::GroupMe is a set of components for Peribot. This provides everything
-necessary for a Peribot instance to send and receive messages from GroupMe.
+Peribot::GroupMe is designed and intended to be a toolbox of components that
+you can use to connect Peribot instances to GroupMe. It is designed to allow
+instances to operate as either GroupMe bots or full users, and it simplifies
+tasks like sending images as part of messages.
 
-A major caveat of this implementation is that it assumes the bot is a full
-GroupMe user, rather than simply a bot created on the developer site. Keep in
-mind that a phone number is required to create a new GroupMe user. It is
-designed to use the callback feature of bots, rather than push notifications or
-other means, to receive messages. It more or less acts as a web server that
-receives messages from GroupMe and processes them before sending back replies
-through the normal API. Many improvements can be made in all of these areas,
-but this is at least a start for getting a working chatbot running.
+Eventually, I plan to write additional documentation on how Peribot::GroupMe
+can be effectively used, likely as part of more extensive documentation on
+creating and running Peribot instances. However, the code is relatively simple
+and should give a good understanding of how this gem can be used.
 
 ## Contributing
 
