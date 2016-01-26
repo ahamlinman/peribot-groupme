@@ -12,7 +12,10 @@ describe Peribot::GroupMe::UserLikeSender do
   end
 
   describe '#process' do
-    before(:each) { allow(GroupMe::Client).to receive(:new).and_return(client) }
+    before(:each) do
+      allow(GroupMe::Client).to receive(:new)
+        .with(token: 'TEST').and_return(client)
+    end
 
     context 'with a like message' do
       let(:message) { { 'group_id' => '1', 'like' => '1234' } }
@@ -25,13 +28,26 @@ describe Peribot::GroupMe::UserLikeSender do
       end
     end
 
-    context 'with a text message' do
-      let(:message) { { 'group_id' => '1', 'text' => 'Should not respond' } }
-
+    shared_context 'invalid message' do
       it 'returns the message for further processing' do
         expect(client).to_not receive(:create_like)
         expect(instance.process(message)).to eq(message)
       end
+    end
+
+    context 'with a text message' do
+      let(:message) { { 'group_id' => '1', 'text' => 'Should not respond' } }
+      include_context 'invalid message'
+    end
+
+    context 'with a message missing a like parameter' do
+      let(:message) { { 'group_id' => '1' } }
+      include_context 'invalid message'
+    end
+
+    context 'with a message missing a group_id parameter' do
+      let(:message) { { 'like' => '1234' } }
+      include_context 'invalid message'
     end
   end
 end
