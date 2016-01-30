@@ -8,8 +8,9 @@ module Peribot
       #
       # @param bot [Peribot::Bot] A Peribot instance
       def initialize(bot)
-        @bot = bot
-        @client = ::GroupMe::Client.new token: @bot.config['groupme']['token']
+        super
+
+        @client = ::GroupMe::Client.new token: bot.config['groupme']['token']
       end
 
       # Send the message, or pass it on if it does not meet the required format

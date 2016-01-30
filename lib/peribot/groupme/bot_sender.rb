@@ -8,8 +8,9 @@ module Peribot
       #
       # @param bot [Peribot::Bot] A Peribot instance
       def initialize(bot)
-        @bot = bot
-        @client = ::GroupMe::Client.new token: @bot.config['groupme']['token']
+        super
+
+        @client = ::GroupMe::Client.new token: bot.config['groupme']['token']
       end
 
       # Send the message, or pass it on if it does not meet the required format
@@ -39,7 +40,7 @@ module Peribot
       # @param gid The group ID for the message
       # @return The ID of the bot to use to respond to this group
       def get_bot_id(gid)
-        map = @bot.config['groupme']['bot_map']
+        map = bot.config['groupme']['bot_map']
         map = auto_map if map == 'auto' || !map
 
         map[gid]
@@ -51,7 +52,7 @@ module Peribot
       # be cached in the bot instance so that we do not continually hit the
       # GroupMe API.
       def auto_map
-        cache = @bot.cache['groupme-bot-map']
+        cache = bot.cache['groupme-bot-map']
         return cache.value['map'] if cache.value['map']
 
         map = Hash[@client.bots.map { |bot| [bot['group_id'], bot['bot_id']] }]

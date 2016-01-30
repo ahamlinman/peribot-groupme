@@ -16,13 +16,6 @@ module Peribot
       UPLOAD_HOST = 'https://image.groupme.com'.freeze
       UPLOAD_PATH = '/pictures'.freeze
 
-      # Initialize this postprocessor task.
-      #
-      # @param bot [Peribot::Bot] A Peribot instance
-      def initialize(bot)
-        @bot = bot
-      end
-
       # Given an 'image' parameter in a message, create the necessary
       # 'attachment' parameter for GroupMe that will allow the image to be
       # attached to a real message once sent.
@@ -80,7 +73,7 @@ module Peribot
           f.adapter :net_http
         end
 
-        token = @bot.config['groupme']['token']
+        token = bot.config['groupme']['token']
         file = Faraday::UploadIO.new(io, 'application/octet-stream')
 
         res = conn.post UPLOAD_PATH, 'token' => token, 'file' => file
