@@ -21,7 +21,7 @@ module Peribot
         # Having Faye as a dependency brings in a lot of additional baggage,
         # including EventMachine and more. Thus, we're going to force the user
         # to require it themselves if they really want to do push.
-        fail 'faye must be loaded to use push client' unless defined? ::Faye
+        raise 'faye must be loaded to use push client' unless defined? ::Faye
 
         token = bot.config['groupme']['token']
         client = ::GroupMe::Client.new token: token
