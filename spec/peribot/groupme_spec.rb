@@ -17,6 +17,15 @@ describe Peribot::GroupMe do
       allow(bot).to receive(:sender).and_return(sender)
     end
 
+    it 'defines a push starter method on the bot instance' do
+      expect(Peribot::GroupMe::Push).to receive(:start!)
+      allow(bot.postprocessor).to receive(:register)
+      allow(bot.sender).to receive(:register)
+
+      Peribot::GroupMe.register_into bot
+      bot.start_groupme_push!
+    end
+
     context 'when sending as a bot' do
       it 'registers bot components' do
         expect(bot.postprocessor).to receive(:register)

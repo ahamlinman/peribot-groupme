@@ -35,6 +35,20 @@ module Peribot
         bot.sender.register Peribot::GroupMe::UserSender
         bot.sender.register Peribot::GroupMe::UserLikeSender
       end
+
+      register_groupme_starter_for bot
+    end
+
+    class << self
+      private
+
+      # Define a method on a bot that allows for push messages to be started.
+      # This is a relatively natural way of starting up the bot properly.
+      def register_groupme_starter_for(bot)
+        bot.define_singleton_method(:start_groupme_push!) do
+          Peribot::GroupMe::Push.start! bot
+        end
+      end
     end
   end
 end
