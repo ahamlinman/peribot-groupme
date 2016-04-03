@@ -26,6 +26,14 @@ describe Peribot::GroupMe do
       bot.start_groupme_push!
     end
 
+    it 'does not define a push starter when requested not to' do
+      allow(bot.postprocessor).to receive(:register)
+      allow(bot.sender).to receive(:register)
+
+      Peribot::GroupMe.register_into bot, starter: false
+      expect(bot).not_to respond_to(:start_groupme_push!)
+    end
+
     context 'when sending as a bot' do
       it 'registers bot components' do
         expect(bot.postprocessor).to receive(:register)

@@ -25,7 +25,7 @@ module Peribot
     #                         is :bots, which replies via bots added to groups.
     #                         The :user option can be used in order to respond
     #                         directly as a user.
-    def register_into(bot, send_as: :bots)
+    def register_into(bot, send_as: :bots, starter: true)
       bot.postprocessor.register Peribot::GroupMe::ImageProcessor
 
       case send_as
@@ -36,7 +36,7 @@ module Peribot
         bot.sender.register Peribot::GroupMe::UserLikeSender
       end
 
-      register_groupme_starter_for bot
+      register_groupme_starter_for bot if starter
     end
 
     class << self
