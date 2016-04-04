@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'peribot/groupme/push/auth'
+require 'faye'
 
 module Peribot
   module GroupMe
@@ -18,11 +19,6 @@ module Peribot
       #
       # @param bot [Peribot::Bot] A Peribot instance
       def start!(bot)
-        # Having Faye as a dependency brings in a lot of additional baggage,
-        # including EventMachine and more. Thus, we're going to force the user
-        # to require it themselves if they really want to do push.
-        raise 'faye must be loaded to use push client' unless defined? ::Faye
-
         token = bot.config['groupme']['token']
         client = ::GroupMe::Client.new token: token
 
