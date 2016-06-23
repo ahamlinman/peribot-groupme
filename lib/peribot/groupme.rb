@@ -30,7 +30,7 @@ module Peribot
 
       case send_as
       when :bots
-        bot.sender.register Peribot::GroupMe::BotSender
+        bot.use Peribot::GroupMe::BotSender
       when :user
         bot.sender.register Peribot::GroupMe::UserSender
         bot.sender.register Peribot::GroupMe::UserLikeSender

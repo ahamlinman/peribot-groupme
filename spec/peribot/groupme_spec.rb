@@ -15,6 +15,7 @@ describe Peribot::GroupMe do
     before(:each) do
       allow(bot).to receive(:postprocessor).and_return(postprocessor)
       allow(bot).to receive(:sender).and_return(sender)
+      allow(bot).to receive(:use) { |item| item.register_into self }
     end
 
     it 'defines a push starter method on the bot instance' do
