@@ -26,7 +26,7 @@ module Peribot
     #                         The :user option can be used in order to respond
     #                         directly as a user.
     def register_into(bot, send_as: :bots, starter: true)
-      bot.postprocessor.register Peribot::GroupMe::ImageProcessor
+      bot.use Peribot::GroupMe::ImageProcessor
 
       case send_as
       when :bots

@@ -16,6 +16,13 @@ module Peribot
       UPLOAD_HOST = 'https://image.groupme.com'.freeze
       UPLOAD_PATH = '/pictures'.freeze
 
+      # Register this postprocessor into a {Peribot::Bot} instance.
+      #
+      # @param bot [Peribot::Bot] A bot instance
+      def self.register_into(bot)
+        bot.postprocessor.register self
+      end
+
       # Given an 'image' parameter in a message, create the necessary
       # 'attachment' parameter for GroupMe that will allow the image to be
       # attached to a real message once sent.
