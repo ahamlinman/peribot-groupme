@@ -6,6 +6,13 @@ module Peribot
     # Instead, a group_id is provided along with a 'like' parameter containing
     # the message ID of the particular message to like.
     class UserLikeSender < Peribot::Processor
+      # Register this sender into a {Peribot::Bot} instance.
+      #
+      # @param bot [Peribot::Bot] A bot instance
+      def self.register_into(bot)
+        bot.sender.register self
+      end
+
       # Like the message, or pass it on if it does not meet the required format
       # (it contains 'group_id' and 'like' paramters).
       def process(message)

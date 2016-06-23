@@ -32,8 +32,8 @@ module Peribot
       when :bots
         bot.use Peribot::GroupMe::BotSender
       when :user
-        bot.sender.register Peribot::GroupMe::UserSender
-        bot.sender.register Peribot::GroupMe::UserLikeSender
+        bot.use Peribot::GroupMe::UserSender
+        bot.use Peribot::GroupMe::UserLikeSender
       end
 
       register_groupme_starter_for bot if starter

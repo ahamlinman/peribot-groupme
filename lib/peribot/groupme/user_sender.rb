@@ -13,6 +13,13 @@ module Peribot
         @client = ::GroupMe::Client.new token: bot.config['groupme']['token']
       end
 
+      # Register this sender into a {Peribot::Bot} instance.
+      #
+      # @param bot [Peribot::Bot] A bot instance
+      def self.register_into(bot)
+        bot.sender.register self
+      end
+
       # Send the message, or pass it on if it does not meet the required format
       # (it contains 'group_id' and 'text' paramters). Messages that do not
       # meet this format may be intended for another sender.
