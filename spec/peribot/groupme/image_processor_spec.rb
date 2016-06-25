@@ -3,7 +3,8 @@ require 'webmock/rspec'
 require 'json'
 
 describe Peribot::GroupMe::ImageProcessor do
-  let(:bot) { instance_double(Peribot::Bot) }
+  include_context 'standard doubles'
+
   let(:instance) { Peribot::GroupMe::ImageProcessor.new bot }
   let(:image) { File.new File.expand_path('../../fixtures/wow.jpg', __dir__) }
   let(:upload_result) do
@@ -18,7 +19,7 @@ describe Peribot::GroupMe::ImageProcessor do
   end
 
   before(:each) do
-    allow(bot).to receive(:config).and_return('groupme' => { 'token' => '' })
+    bot.configure { groupme { token '' } }
   end
 
   describe '#process' do

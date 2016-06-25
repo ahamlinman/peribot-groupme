@@ -5,9 +5,6 @@ describe Peribot::GroupMe::BotSender do
   include_context 'standard doubles'
 
   let(:instance) { Peribot::GroupMe::BotSender.new bot }
-  let(:bot_cache) do
-    Concurrent::Map.new { |m, k| m[k] = Concurrent::Atom.new({}) }
-  end
   let(:message) { { 'group_id' => '1', 'text' => 'Test' } }
   let(:chain_stop) { Peribot::ProcessorChain::Stop }
 
@@ -20,8 +17,7 @@ describe Peribot::GroupMe::BotSender do
 
   describe '#process' do
     before(:each) do
-      allow(bot).to receive(:config).and_return(bot_config)
-      allow(bot).to receive(:cache).and_return(bot_cache)
+      bot.configure bot_config
       allow(::GroupMe::Client).to receive(:new).and_return(client)
     end
 
