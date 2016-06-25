@@ -59,13 +59,9 @@ module Peribot
       # be cached in the bot instance so that we do not continually hit the
       # GroupMe API.
       def auto_map
-        cache = bot.cache['groupme-bot-map']
-        return cache.value['map'] if cache.value['map']
-
-        map = Hash[@client.bots.map { |bot| [bot['group_id'], bot['bot_id']] }]
-        cache.swap { |values| values.merge('map' => map) }
-
-        map
+        cache = bot.caches['groupme-bot-map']
+        cache['map'] || cache['map'] = Hash[
+          @client.bots.map { |bot| [bot['group_id'], bot['bot_id']] }.freeze]
       end
 
       # (private)
