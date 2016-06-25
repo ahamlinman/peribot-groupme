@@ -1,10 +1,10 @@
 require 'spec_helper'
-require 'tmpdir'
+require 'tempfile'
 
 shared_context 'standard doubles' do
+  let(:tmp_file) { @tmpfile = Tempfile.new(['peribot', '.pstore']) }
   let(:bot) do
-    store = File.join(Dir.mktmpdir, 'peribot.pstore')
-    bot = Peribot::Bot.new(store_file: store)
+    bot = Peribot::Bot.new(store_file: tmp_file)
     bot.configure do
       groupme do
         token 'TEST'
@@ -14,6 +14,7 @@ shared_context 'standard doubles' do
 
     bot
   end
+  after(:each) { @tmpfile && @tmpfile.unlink && @tmpfile = nil }
 
   let(:client) { instance_double(GroupMe::Client) }
 end
