@@ -9,28 +9,13 @@ describe Peribot::GroupMe do
   end
 
   describe '.register_into' do
-    let(:postprocessor) { instance_double(Peribot::ProcessorChain) }
-    let(:sender) { instance_double(Peribot::ProcessorChain) }
-
-    before(:each) do
-      allow(bot).to receive(:postprocessor).and_return(postprocessor)
-      allow(bot).to receive(:sender).and_return(sender)
-      allow(bot).to receive(:use) { |item| item.register_into self }
-    end
-
     it 'defines a push starter method on the bot instance' do
       expect(Peribot::GroupMe::Push).to receive(:start!)
-      allow(bot.postprocessor).to receive(:register)
-      allow(bot.sender).to receive(:register)
-
       Peribot::GroupMe.register_into bot
       bot.start_groupme_push!
     end
 
     it 'does not define a push starter when requested not to' do
-      allow(bot.postprocessor).to receive(:register)
-      allow(bot.sender).to receive(:register)
-
       Peribot::GroupMe.register_into bot, starter: false
       expect(bot).not_to respond_to(:start_groupme_push!)
     end

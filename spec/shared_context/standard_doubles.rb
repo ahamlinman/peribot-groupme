@@ -1,17 +1,20 @@
 require 'spec_helper'
+require 'tempfile'
 
 shared_context 'standard doubles' do
-  let(:bot) { instance_double(Peribot::Bot) }
-  let(:client) { instance_double(GroupMe::Client) }
-  let(:config) do
-    {
-      'groupme' => { 'token' => 'TEST',
-                     'bots' => { 'name' => 'Robot',
-                                 'callback' => 'http://callback' },
-                     'welcome' => 'This is a welcome message'
-                   }
-    }
-  end
+  let(:tmp_file) { @tmpfile = Tempfile.new(['peribot', '.pstore']) }
+  let(:bot) do
+    bot = Peribot::Bot.new(store_file: tmp_file)
+    bot.configure do
+      groupme do
+        token 'TEST'
+        welcome 'This is a welcome message!'
+      end
+    end
 
-  before(:each) { allow(bot).to receive(:config).and_return(config) }
+    bot
+  end
+  after(:each) { @tmpfile && @tmpfile.unlink && @tmpfile = nil }
+
+  let(:client) { instance_double(GroupMe::Client) }
 end
