@@ -20,19 +20,34 @@ module Peribot
         bot.sender.register self
       end
 
-      # Send the message, or pass it on if it does not meet the required format
-      # (it contains 'group_id' and 'text' paramters). Messages that do not
-      # meet this format may be intended for another sender.
+      # Send the message, or pass it on if it does not meet the required
+      # format. Messages that do not meet this format may be intended for
+      # another sender.
       def process(message)
-        text = message['text']
-        gid = message['group_id']
-        attachments = message['attachments']
+        text = message[:text]
+        group = message[:group]
+        attachments = message[:attachments]
 
-        return message unless text && gid
+        if message[:service] && text && !text.empty? && group
+          @client.create_message group.split('/').last, text,
+                                 convert_attachments(attachments)
+        end
 
-        @client.create_message gid, text, (attachments || [])
+        message
+      end
 
-        stop_processing
+      private
+
+      # (private)
+      #
+      # Convert attachments from Peribot's format to GroupMe's format.
+      #
+      # @param attachments [Array] The Peribot attachments to convert
+      # @return [Array] GroupMe-style attachments for the client
+      def convert_attachments(attachments)
+        (!attachments && []) || attachments
+          .select { |a| a[:kind] == :image }
+          .map { |a| { 'type' => 'image', 'url' => a[:image] } }
       end
     end
   end

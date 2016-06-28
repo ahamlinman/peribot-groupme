@@ -20,12 +20,10 @@ describe Peribot::GroupMe::UserSender do
         { service: :groupme, group: 'groupme/1', text: 'This is text!' }
       end
 
-      it 'sends the message and stops processing' do
+      it 'sends the message and continues processing' do
         expect(client).to receive(:create_message)
           .with('1', 'This is text!', [])
-        expect(instance).to receive(:stop_processing)
-
-        instance.process message
+        expect(instance.process(message)).to eq(message)
       end
     end
 
@@ -39,13 +37,11 @@ describe Peribot::GroupMe::UserSender do
         }
       end
 
-      it 'sends the message and stops processing' do
+      it 'sends the message and continues processing' do
         attachments = [{ 'type' => 'image', 'url' => 'http://i.co/1.jpg' }]
         expect(client).to receive(:create_message)
           .with('1', 'This is text!', attachments)
-        expect(instance).to receive(:stop_processing)
-
-        instance.process message
+        expect(instance.process(message)).to eq(message)
       end
     end
 
