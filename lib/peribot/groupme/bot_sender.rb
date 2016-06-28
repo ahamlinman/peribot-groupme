@@ -24,9 +24,11 @@ module Peribot
       # (it contains 'group_id' and 'text' paramters). Messages that do not
       # meet this format may be intended for another sender.
       def process(message)
-        text = message['text']
-        bid = get_bot_id message['group_id']
-        picture = get_picture_url message['attachments']
+        return message unless message[:service] == :groupme
+
+        text = message[:text]
+        bid = get_bot_id message[:group].split('/').last
+        picture = get_picture_url message[:attachments]
 
         return message unless text && bid
 
@@ -73,8 +75,8 @@ module Peribot
       def get_picture_url(attachments)
         return unless attachments
 
-        image = attachments.find { |a| a['type'] == 'image' }
-        image && image['url']
+        image_att = attachments.find { |a| a[:kind] == :image }
+        image_att && image_att[:image]
       end
     end
   end
