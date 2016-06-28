@@ -18,7 +18,13 @@ describe Peribot::GroupMe::UserLikeSender do
     end
 
     context 'with a like message' do
-      let(:message) { { 'group_id' => '1', 'like' => '1234' } }
+      let(:message) do
+        {
+          service: :groupme,
+          group: 'groupme/1',
+          attachments: [{ kind: :like, message_id: '1234' }]
+        }
+      end
 
       it 'likes the message and stops processing' do
         expect(client).to receive(:create_like).with('1', '1234')
@@ -36,17 +42,24 @@ describe Peribot::GroupMe::UserLikeSender do
     end
 
     context 'with a text message' do
-      let(:message) { { 'group_id' => '1', 'text' => 'Should not respond' } }
+      let(:message) do
+        { service: :groupme, group: 'groupme/1', text: 'Should not respond' }
+      end
       include_context 'invalid message'
     end
 
-    context 'with a message missing a like parameter' do
-      let(:message) { { 'group_id' => '1' } }
+    context 'with a message missing a like attachment' do
+      let(:message) { { service: :groupme, group: 'groupme/1' } }
       include_context 'invalid message'
     end
 
     context 'with a message missing a group_id parameter' do
-      let(:message) { { 'like' => '1234' } }
+      let(:message) do
+        {
+          service: :groupme,
+          attachments: [{ kind: :like, message_id: '1234' }]
+        }
+      end
       include_context 'invalid message'
     end
   end
