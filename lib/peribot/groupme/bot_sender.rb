@@ -37,7 +37,7 @@ module Peribot
 
         @client.bot_post bid, text, options
 
-        stop_processing
+        message
       end
 
       private

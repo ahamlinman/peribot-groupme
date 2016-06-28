@@ -33,7 +33,7 @@ describe Peribot::GroupMe::BotSender do
 
       it 'sends messages using the bot mapped to the group' do
         expect(client).to receive(:bot_post).with('1abc', 'Test', {})
-        expect { instance.process message }.to raise_error(chain_stop)
+        expect(instance.process(message)).to eq(message)
       end
     end
 
@@ -45,7 +45,7 @@ describe Peribot::GroupMe::BotSender do
 
       it 'sends messages using the bot in the group' do
         expect(client).to receive(:bot_post).with('1abc', 'Test', {})
-        expect { instance.process message }.to raise_error(chain_stop)
+        expect(instance.process(message)).to eq(message)
       end
     end
 
@@ -111,7 +111,7 @@ describe Peribot::GroupMe::BotSender do
       it 'includes the image URL in the message' do
         options = { picture_url: 'http://pic/i.jpg' }
         expect(client).to receive(:bot_post).with('1abc', 'Test', options)
-        expect { instance.process message }.to raise_error(chain_stop)
+        expect(instance.process(message)).to eq(message)
       end
     end
   end
