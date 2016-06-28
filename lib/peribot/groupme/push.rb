@@ -25,7 +25,9 @@ module Peribot
         ::EventMachine.run do
           push = faye_client token
           push.subscribe("/user/#{client.me['id']}") do |msg|
-            bot.accept msg['subject'] if msg['type'] == 'line.create'
+            if msg['type'] == 'line.create'
+              bot.accept(groupme_to_peribot(msg['subject']))
+            end
           end
         end
       end
@@ -41,6 +43,47 @@ module Peribot
           push = ::Faye::Client.new PUSH_ENDPOINT
           push.add_extension Auth.new token
           push
+        end
+
+        # (private)
+        #
+        # Convert a message in GroupMe's format to a message in Peribot's
+        # format.
+        def groupme_to_peribot(message)
+          {
+            service: :groupme,
+            group: "groupme/#{message['group_id']}",
+            text: message['text'],
+            user_name: message['name'],
+            id: message['id'],
+            attachments: convert_attachments(message['attachments']),
+            original: message
+          }
+        end
+
+        # (private)
+        #
+        # Convert attachments from GroupMe's format to Peribot's format.
+        def convert_attachments(attachments)
+          return nil unless attachments
+
+          converted = attachments.map { |a| convert_attachment(a) }.compact
+
+          return nil if converted.empty?
+          converted
+        end
+
+        # (private)
+        #
+        # Convert an attachment from GroupMe's format to Peribot's format. For
+        # now, we only convert images (not mentions or other attachments).
+        def convert_attachment(attachment)
+          return nil unless attachment['type'] == 'image'
+
+          {
+            kind: :image,
+            image: attachment['url']
+          }
         end
       end
     end

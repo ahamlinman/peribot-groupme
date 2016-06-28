@@ -1,0 +1,25 @@
+{
+  "attachments": [
+    {
+      "type": "image",
+      "url": "http://tinyurl.com/zt9dgdh"
+    }
+  ],
+  "avatar_url": "https://i.groupme.com/400x400.png.d9dc5d79b97642489cdcb90b05b2f6f5",
+  "created_at": 1467144944,
+  "group_id": "01234567",
+  "id": "012345678901234567",
+  "location": {
+    "lat": "",
+    "lng": "",
+    "name": null
+  },
+  "name": "Alex Hamlin",
+  "picture_url": "http://tinyurl.com/zt9dgdh",
+  "sender_id": "76543210",
+  "sender_type": "user",
+  "source_guid": "aabbccddeeffaabbccddeeffaabbccdd",
+  "system": false,
+  "text": "Check out this image!",
+  "user_id": "76543210"
+}
