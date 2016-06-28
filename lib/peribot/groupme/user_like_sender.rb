@@ -1,10 +1,9 @@
 module Peribot
   module GroupMe
     # A Peribot sender task to like GroupMe messages via the user whose access
-    # token is being used for the bot. A special format is used in order to
-    # like messages that differs from the normal group_id + text format.
-    # Instead, a group_id is provided along with a 'like' parameter containing
-    # the message ID of the particular message to like.
+    # token is being used for the bot. Likes are sent based on the presence of
+    # `:like` attachments in the message (see the Peribot message format
+    # specification for details).
     class UserLikeSender < Peribot::Processor
       # Register this sender into a {Peribot::Bot} instance.
       #
@@ -13,15 +12,24 @@ module Peribot
         bot.sender.register self
       end
 
+      # Initialize this processor with a bot.
+      def initialize(bot)
+        super
+        @client = ::GroupMe::Client.new token: bot.config['groupme']['token']
+      end
+
       # Like the message, or pass it on if it does not meet the required format
-      # (it contains 'group_id' and 'like' paramters).
       def process(message)
-        return message unless message['like'] && message['group_id']
+        return message unless message[:service] == :groupme &&
+                              message[:group] && message[:attachments]
 
-        client = ::GroupMe::Client.new token: bot.config['groupme']['token']
-        client.create_like message['group_id'], message['like']
+        message[:attachments].each do |attachment|
+          next attachment unless attachment[:kind] == :like
+          @client.create_like message[:group].split('/').last,
+                              attachment[:message_id]
+        end
 
-        stop_processing
+        message
       end
     end
   end
