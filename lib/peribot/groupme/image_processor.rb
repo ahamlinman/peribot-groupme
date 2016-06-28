@@ -29,10 +29,15 @@ module Peribot
       #
       # @param message [Hash] The reply from services being processed
       def process(message)
-        return message unless message['image']
+        return message unless message[:attachments]
 
-        image_url = get_groupme_image_url message['image']
-        add_image_to_message image_url, message
+        message = message.dup
+        message[:attachments].map! do |attachment|
+          next attachment unless attachment[:kind] == :image
+          { kind: :image, image: get_groupme_image_url(attachment[:image]) }
+        end
+
+        message
       end
 
       private
@@ -85,22 +90,6 @@ module Peribot
 
         res = conn.post UPLOAD_PATH, 'token' => token, 'file' => file
         res.body['payload']['url']
-      end
-
-      # (private)
-      #
-      # Given an image url (for the GroupMe image service) and a message, add
-      # the image to the message's attachment list.
-      #
-      # @param image_url [String] The URL to the image on GroupMe
-      # @param message [Hash] The message being processed
-      def add_image_to_message(image_url, message)
-        params = { 'type' => 'image', 'url' => image_url }
-
-        msg = message.dup
-        (msg['attachments'] ||= []) << params
-
-        msg
       end
     end
   end
