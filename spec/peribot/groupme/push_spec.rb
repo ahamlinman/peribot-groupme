@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'shared_context/standard_doubles'
+require 'yaml'
 
 describe Peribot::GroupMe::Push do
   include_context 'standard doubles'
@@ -23,18 +24,31 @@ describe Peribot::GroupMe::Push do
     end
 
     context 'when a message is received' do
-      let(:message) do
+      let(:groupme_message) do
+        YAML.load_file(File.expand_path('../../fixtures/msg.json', __dir__))
+      end
+      let(:push_message) do
         {
-          'alert' => 'Tester: This is only a test.',
-          'subject' => { 'group_id' => '1', 'text' => 'Hi!' },
+          'alert' => 'Alex Hamlin: Check out this image!',
+          'subject' => groupme_message,
           'type' => 'line.create'
+        }
+      end
+      let(:peribot_message) do
+        {
+          service: :groupme,
+          group: 'groupme/01234567',
+          text: 'Check out this image!',
+          user_name: 'Alex Hamlin',
+          id: '012345678901234567',
+          attachments: [{ kind: :image, image: 'http://tinyurl.com/zt9dgdh' }],
+          original: groupme_message
         }
       end
 
       it 'sends GroupMe messages to the bot' do
-        allow(faye_client).to receive(:subscribe).and_yield(message)
-        expect(bot).to receive(:accept).with('group_id' => '1',
-                                             'text' => 'Hi!')
+        allow(faye_client).to receive(:subscribe).and_yield(push_message)
+        expect(bot).to receive(:accept).with(peribot_message)
 
         Peribot::GroupMe::Push.start! bot
       end

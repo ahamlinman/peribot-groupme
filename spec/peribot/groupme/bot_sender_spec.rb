@@ -5,7 +5,7 @@ describe Peribot::GroupMe::BotSender do
   include_context 'standard doubles'
 
   let(:instance) { Peribot::GroupMe::BotSender.new bot }
-  let(:message) { { 'group_id' => '1', 'text' => 'Test' } }
+  let(:message) { { service: :groupme, group: 'groupme/1', text: 'Test' } }
   let(:chain_stop) { Peribot::ProcessorChain::Stop }
 
   describe '#initialize' do
@@ -33,7 +33,7 @@ describe Peribot::GroupMe::BotSender do
 
       it 'sends messages using the bot mapped to the group' do
         expect(client).to receive(:bot_post).with('1abc', 'Test', {})
-        expect { instance.process message }.to raise_error(chain_stop)
+        expect(instance.process(message)).to eq(message)
       end
     end
 
@@ -45,7 +45,7 @@ describe Peribot::GroupMe::BotSender do
 
       it 'sends messages using the bot in the group' do
         expect(client).to receive(:bot_post).with('1abc', 'Test', {})
-        expect { instance.process message }.to raise_error(chain_stop)
+        expect(instance.process(message)).to eq(message)
       end
     end
 
@@ -101,16 +101,17 @@ describe Peribot::GroupMe::BotSender do
       end
       let(:message) do
         {
-          'group_id' => '1',
-          'text' => 'Test',
-          'attachments' => [{ 'type' => 'image', 'url' => 'http://pic/i.jpg' }]
+          service: :groupme,
+          group: 'groupme/1',
+          text: 'Test',
+          attachments: [{ kind: :image, image: 'http://pic/i.jpg' }]
         }
       end
 
       it 'includes the image URL in the message' do
         options = { picture_url: 'http://pic/i.jpg' }
         expect(client).to receive(:bot_post).with('1abc', 'Test', options)
-        expect { instance.process message }.to raise_error(chain_stop)
+        expect(instance.process(message)).to eq(message)
       end
     end
   end

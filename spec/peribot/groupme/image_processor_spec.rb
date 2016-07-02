@@ -12,10 +12,10 @@ describe Peribot::GroupMe::ImageProcessor do
   end
   let(:reply) do
     params = [{
-      'type' => 'image',
-      'url' => 'http://i.groupme.com/123456789'
+      kind: :image,
+      image: 'http://i.groupme.com/123456789'
     }]
-    message.merge('attachments' => params)
+    message.merge(attachments: params)
   end
 
   before(:each) do
@@ -24,7 +24,7 @@ describe Peribot::GroupMe::ImageProcessor do
 
   describe '#process' do
     context 'with a message containing no image' do
-      let(:message) { { 'group_id' => '1', 'text' => 'Test' } }
+      let(:message) { { service: :groupme, group: 'groupme/1', text: 'Test' } }
 
       it 'returns the message unchanged' do
         expect(instance.process(message)).to eq(message)
@@ -34,9 +34,11 @@ describe Peribot::GroupMe::ImageProcessor do
     context 'with a message containing a GroupMe image URL' do
       let(:message) do
         {
-          'group_id' => '1',
-          'text' => 'From a GroupMe URL!',
-          'image' => 'http://i.groupme.com/123456789'
+          service: :groupme,
+          group: 'groupme/1',
+          text: 'From a GroupMe URL!',
+          attachments: [
+            { kind: :image, image: 'http://i.groupme.com/123456789' }]
         }
       end
 
@@ -48,9 +50,10 @@ describe Peribot::GroupMe::ImageProcessor do
     context 'with a message containing a non-GroupMe image URL' do
       let(:message) do
         {
-          'group_id' => '1',
-          'text' => 'From an external URL!',
-          'image' => 'http://pictures.com/wow.jpg'
+          service: :groupme,
+          group: 'groupme/1',
+          text: 'From an external URL!',
+          attachments: [{ kind: :image, image: 'http://pictures.com/wow.jpg' }]
         }
       end
 
@@ -68,9 +71,10 @@ describe Peribot::GroupMe::ImageProcessor do
     context 'with a message containing an image file' do
       let(:message) do
         {
-          'group_id' => '1',
-          'text' => 'From disk!',
-          'image' => image
+          service: :groupme,
+          group: 'groupme/1',
+          text: 'From disk!',
+          attachments: [{ kind: :image, image: image }]
         }
       end
 
