@@ -21,6 +21,8 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
+  spec.required_ruby_version = '>= 2.2.2'
+
   spec.add_dependency 'peribot', '~> 0.8.0.pre'
   spec.add_dependency 'groupme', '~> 0.0.7'
   spec.add_dependency 'faraday', '~> 0.9.2'
@@ -33,8 +35,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop', '~> 0.39.0'
   spec.add_development_dependency 'simplecov', '~> 0.11.2'
   spec.add_development_dependency 'webmock', '~> 1.24.2'
-
-  if RUBY_VERSION >= '2.1.0'
-    spec.add_development_dependency 'mutant-rspec', '~> 0.8.8'
-  end
+  spec.add_development_dependency 'mutant-rspec', '~> 0.8.8'
 end
