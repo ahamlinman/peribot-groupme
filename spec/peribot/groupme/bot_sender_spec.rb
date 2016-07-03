@@ -114,5 +114,22 @@ describe Peribot::GroupMe::BotSender do
         expect(instance.process(message)).to eq(message)
       end
     end
+
+    context 'with a message with empty text' do
+      let(:bot_config) do
+        {
+          'groupme' => {
+            'token' => 'TOKEN',
+            'bot_map' => { '1' => '1abc' }
+          }
+        }
+      end
+      let(:message) { { service: :groupme, group: 'groupme/1', text: '' } }
+
+      it 'does not send the message' do
+        expect(client).to_not receive(:bot_post)
+        expect(instance.process(message)).to eq(message)
+      end
+    end
   end
 end

@@ -30,7 +30,7 @@ module Peribot
         bid = get_bot_id message[:group].split('/').last
         picture = get_picture_url message[:attachments]
 
-        return message unless text && bid
+        return message unless text && !text.empty? && bid
 
         options = {}
         options[:picture_url] = picture if picture

@@ -27,6 +27,17 @@ describe Peribot::GroupMe::UserSender do
       end
     end
 
+    context 'with a message with empty text' do
+      let(:message) do
+        { service: :groupme, group: 'groupme/1', text: '' }
+      end
+
+      it 'does not send the message and continues processing' do
+        expect(client).to_not receive(:create_message)
+        expect(instance.process(message)).to eq(message)
+      end
+    end
+
     context 'with a valid message with an attachment' do
       let(:message) do
         {
