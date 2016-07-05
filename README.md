@@ -22,10 +22,10 @@ to revoke an access token obtained via the first method.)
 
 Bots are created by clicking "Bots" in the top navigation bar. You can add a
 bot to any group that you are a member of, and you can customize its name and
-avatar. By default, Peribot::GroupMe will send replies to the first of your
-bots that it sees in a given group. If you have not created a bot for a group
-on the GroupMe developers website, you will not see replies from your Peribot
-bot in that group.
+avatar. By default, Peribot::GroupMe will send replies to the last of your bots
+that it sees in a given group. If you have not created a bot for a group on the
+GroupMe developers website, you will not see replies from your Peribot bot in
+that group.
 
 The following snippet shows how a Peribot bot might be configured to use
 Peribot::GroupMe:
