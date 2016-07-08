@@ -49,21 +49,7 @@ module Peribot
       # @param gid The group ID for the message
       # @return The ID of the bot to use to respond to this group
       def get_bot_id(gid)
-        map = bot.config['groupme']['bot_map']
-        map = auto_map if map == 'auto' || !map
-
-        map[gid]
-      end
-
-      # (private)
-      #
-      # Create an automatic mapping between group IDs and bot IDs, which will
-      # be cached in the bot instance so that we do not continually hit the
-      # GroupMe API.
-      def auto_map
-        cache = bot.caches['groupme-bot-map']
-        cache['map'] || cache['map'] = Hash[
-          @client.bots.map { |bot| [bot['group_id'], bot['bot_id']] }.freeze]
+        Util.bot_map_for(bot)[gid]
       end
 
       # (private)

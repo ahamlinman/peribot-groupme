@@ -6,6 +6,7 @@ require 'peribot/groupme/image_processor'
 require 'peribot/groupme/push'
 require 'peribot/groupme/user_like_sender'
 require 'peribot/groupme/user_sender'
+require 'peribot/groupme/util'
 require 'peribot/groupme/version'
 
 module Peribot
