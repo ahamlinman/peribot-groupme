@@ -6,7 +6,6 @@ describe Peribot::GroupMe::BotSender do
 
   let(:instance) { Peribot::GroupMe::BotSender.new bot }
   let(:message) { { service: :groupme, group: 'groupme/1', text: 'Test' } }
-  let(:chain_stop) { Peribot::ProcessorChain::Stop }
 
   describe '#initialize' do
     it 'takes a bot and initializes a GroupMe client' do
