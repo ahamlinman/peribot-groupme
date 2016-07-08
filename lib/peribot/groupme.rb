@@ -1,6 +1,7 @@
 require 'peribot'
 require 'groupme'
 
+require 'peribot/groupme/bot_filter_preprocessor'
 require 'peribot/groupme/bot_sender'
 require 'peribot/groupme/image_processor'
 require 'peribot/groupme/push'
@@ -31,6 +32,7 @@ module Peribot
 
       case send_as
       when :bots
+        bot.use Peribot::GroupMe::BotFilterPreprocessor
         bot.use Peribot::GroupMe::BotSender
       when :user
         bot.use Peribot::GroupMe::UserSender
