@@ -114,7 +114,7 @@ describe Peribot::GroupMe::BotSender do
       end
     end
 
-    context 'with a message with empty text' do
+    context 'with a message with empty text and no attachment' do
       let(:bot_config) do
         {
           'groupme' => {
@@ -127,6 +127,30 @@ describe Peribot::GroupMe::BotSender do
 
       it 'does not send the message' do
         expect(client).to_not receive(:bot_post)
+        expect(instance.process(message)).to eq(message)
+      end
+    end
+
+    context 'with a message with empty text and an image' do
+      let(:bot_config) do
+        {
+          'groupme' => {
+            'token' => 'TOKEN',
+            'bot_map' => { '1' => '1abc' }
+          }
+        }
+      end
+      let(:message) do
+        {
+          service: :groupme,
+          group: 'groupme/1',
+          attachments: [{ kind: :image, image: 'http://pic/i.jpg' }]
+        }
+      end
+
+      it 'includes the image URL in the message' do
+        options = { picture_url: 'http://pic/i.jpg' }
+        expect(client).to receive(:bot_post).with('1abc', '', options)
         expect(instance.process(message)).to eq(message)
       end
     end

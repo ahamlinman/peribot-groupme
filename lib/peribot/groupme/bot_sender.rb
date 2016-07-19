@@ -20,27 +20,33 @@ module Peribot
         bot.sender.register self
       end
 
-      # Send the message, or pass it on if it does not meet the required format
-      # (it contains 'group_id' and 'text' paramters). Messages that do not
-      # meet this format may be intended for another sender.
+      # Send the message, or pass it on if it does not meet the required
+      # format. Messages that do not meet this format may be intended for
+      # another sender.
       def process(message)
         return message unless message[:service] == :groupme
 
-        text = message[:text]
         bid = get_bot_id message[:group].split('/').last
+        text = message[:text]
         picture = get_picture_url message[:attachments]
+        return message unless good_message(bid, text, picture)
 
-        return message unless text && !text.empty? && bid
-
-        options = {}
-        options[:picture_url] = picture if picture
-
-        @client.bot_post bid, text, options
+        @client.bot_post bid, (text || ''), picture_options(picture)
 
         message
       end
 
       private
+
+      # (private)
+      #
+      # Determine whether a message is okay to be sent based on the states of
+      # its various elements. We should have a valid bot ID along with either
+      # non-empty text or a picture attachment in order to send a message
+      # successfully.
+      def good_message(bid, text, picture)
+        bid && (text && !text.empty? || picture)
+      end
 
       # (private)
       #
@@ -63,6 +69,19 @@ module Peribot
 
         image_att = attachments.find { |a| a[:kind] == :image }
         image_att && image_att[:image]
+      end
+
+      # (private)
+      #
+      # Generate options to send an image by URL
+      #
+      # @param picture The picture URL, or nil
+      # @return [Hash] An empty hash, or one containing a picture URL
+      def picture_options(picture)
+        options = {}
+        options[:picture_url] = picture if picture
+
+        options
       end
     end
   end
