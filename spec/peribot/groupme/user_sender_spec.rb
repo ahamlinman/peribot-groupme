@@ -27,7 +27,7 @@ describe Peribot::GroupMe::UserSender do
       end
     end
 
-    context 'with a message with empty text' do
+    context 'with a message with empty text and no attachment' do
       let(:message) do
         { service: :groupme, group: 'groupme/1', text: '' }
       end
@@ -52,6 +52,23 @@ describe Peribot::GroupMe::UserSender do
         attachments = [{ 'type' => 'image', 'url' => 'http://i.co/1.jpg' }]
         expect(client).to receive(:create_message)
           .with('1', 'This is text!', attachments)
+        expect(instance.process(message)).to eq(message)
+      end
+    end
+
+    context 'with a valid message with an attachment and no text' do
+      let(:message) do
+        {
+          service: :groupme,
+          group: 'groupme/1',
+          attachments: [{ kind: :image, image: 'http://i.co/1.jpg' }]
+        }
+      end
+
+      it 'sends the message and continues processing' do
+        attachments = [{ 'type' => 'image', 'url' => 'http://i.co/1.jpg' }]
+        expect(client).to receive(:create_message)
+          .with('1', '', attachments)
         expect(instance.process(message)).to eq(message)
       end
     end

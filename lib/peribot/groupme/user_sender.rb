@@ -24,19 +24,32 @@ module Peribot
       # format. Messages that do not meet this format may be intended for
       # another sender.
       def process(message)
+        return message unless good_message(message)
+
         text = message[:text]
         group = message[:group]
         attachments = message[:attachments]
 
-        if message[:service] && text && !text.empty? && group
-          @client.create_message group.split('/').last, text,
-                                 convert_attachments(attachments)
-        end
+        @client.create_message group.split('/').last, (text || ''),
+                               convert_attachments(attachments)
 
         message
       end
 
       private
+
+      # (private)
+      #
+      # Determine whether we are able to send a response. We need a valid group
+      # and either non-empty text or a set of attachments.
+      def good_message(message)
+        return unless message[:service] == :groupme && message[:group]
+
+        text = message[:text]
+        attachments = message[:attachments]
+
+        (text && !text.empty?) || !convert_attachments(attachments).empty?
+      end
 
       # (private)
       #
