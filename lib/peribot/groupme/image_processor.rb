@@ -82,7 +82,7 @@ module Peribot
           f.request :multipart
           f.request :url_encoded
           f.response :json
-          f.adapter :net_http
+          f.adapter :httpclient
         end
 
         token = bot.config['groupme']['token']
