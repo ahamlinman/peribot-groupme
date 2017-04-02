@@ -9,7 +9,7 @@ describe Peribot::GroupMe::BotFilterPreprocessor do
   describe '.register_into' do
     it 'registers the preprocessor into the correct chain' do
       bot.use described_class
-      expect(bot.preprocessor.tasks).to include(described_class)
+      expect(bot.preprocessor.list).to include(described_class)
     end
   end
 
