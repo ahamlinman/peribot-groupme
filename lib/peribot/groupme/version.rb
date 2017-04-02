@@ -2,6 +2,6 @@
 
 module Peribot
   module GroupMe
-    VERSION = '0.7.3'.freeze
+    VERSION = '0.9.0.pre'.freeze
   end
 end
