@@ -1,3 +1,8 @@
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+    - 'peribot-groupme.gemspec'
+
 Style/Documentation:
   Exclude:
     - 'lib/peribot/groupme/version.rb'
@@ -6,5 +11,6 @@ Style/SignalException:
   EnforcedStyle: only_raise
 
 AllCops:
+  TargetRubyVersion: 2.1
   Exclude:
     - 'bin/**/*'

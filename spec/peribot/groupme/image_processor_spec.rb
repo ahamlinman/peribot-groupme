@@ -38,7 +38,8 @@ describe Peribot::GroupMe::ImageProcessor do
           group: 'groupme/1',
           text: 'From a GroupMe URL!',
           attachments: [
-            { kind: :image, image: 'http://i.groupme.com/123456789' }]
+            { kind: :image, image: 'http://i.groupme.com/123456789' }
+          ]
         }
       end
 
