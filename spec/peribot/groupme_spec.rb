@@ -25,8 +25,8 @@ describe Peribot::GroupMe do
         expect(bot.postprocessor).to receive(:register)
           .with(Peribot::GroupMe::ImageProcessor)
 
-        expect(bot.preprocessor).to receive(:register)
-          .with(Peribot::GroupMe::BotFilterPreprocessor)
+        expect(bot.filter).to receive(:register)
+          .with(Peribot::GroupMe::BotFilter)
         expect(bot.sender).to receive(:register)
           .with(Peribot::GroupMe::BotSender)
 
