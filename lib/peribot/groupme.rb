@@ -3,7 +3,7 @@ require 'groupme'
 
 require 'peribot/groupme/bot_filter'
 require 'peribot/groupme/bot_sender'
-require 'peribot/groupme/image_processor'
+require 'peribot/groupme/image_postprocessor'
 require 'peribot/groupme/push'
 require 'peribot/groupme/user_like_sender'
 require 'peribot/groupme/user_sender'
@@ -28,7 +28,7 @@ module Peribot
     #                         The :user option can be used in order to respond
     #                         directly as a user.
     def register_into(bot, send_as: :bots, starter: true)
-      bot.use Peribot::GroupMe::ImageProcessor
+      bot.use Peribot::GroupMe::ImagePostprocessor
 
       case send_as
       when :bots
