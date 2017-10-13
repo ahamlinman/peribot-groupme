@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 2.2.2'
 
-  spec.add_dependency 'peribot', '~> 0.9.0'
+  spec.add_dependency 'peribot', '~> 0.10.0.pre'
   spec.add_dependency 'groupme', '~> 0.0.7'
   spec.add_dependency 'faraday', '~> 0.9.2'
   spec.add_dependency 'faraday_middleware', '~> 0.9.0' # GroupMe can't use 0.10
