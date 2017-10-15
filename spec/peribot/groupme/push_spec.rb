@@ -52,6 +52,24 @@ describe Peribot::GroupMe::Push do
 
         Peribot::GroupMe::Push.start! bot
       end
+
+      context 'with no text defined' do
+        let(:empty_push_msg) do
+          m = push_message
+          m['subject'].delete 'text'
+          m
+        end
+        let(:empty_peribot_msg) do
+          peribot_message.merge(text: '')
+        end
+
+        it 'sends empty text to the bot' do
+          allow(faye_client).to receive(:subscribe).and_yield(empty_push_msg)
+          expect(bot).to receive(:accept).with(empty_peribot_msg)
+
+          Peribot::GroupMe::Push.start! bot
+        end
+      end
     end
 
     context 'when a GroupMe status message is received' do
