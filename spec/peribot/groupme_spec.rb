@@ -23,10 +23,10 @@ describe Peribot::GroupMe do
     context 'when sending as a bot' do
       it 'registers bot components' do
         expect(bot.postprocessor).to receive(:register)
-          .with(Peribot::GroupMe::ImageProcessor)
+          .with(Peribot::GroupMe::ImagePostprocessor)
 
-        expect(bot.preprocessor).to receive(:register)
-          .with(Peribot::GroupMe::BotFilterPreprocessor)
+        expect(bot.filter).to receive(:register)
+          .with(Peribot::GroupMe::BotFilter)
         expect(bot.sender).to receive(:register)
           .with(Peribot::GroupMe::BotSender)
 
@@ -37,7 +37,7 @@ describe Peribot::GroupMe do
     context 'when sending as a user' do
       it 'registers user components' do
         expect(bot.postprocessor).to receive(:register)
-          .with(Peribot::GroupMe::ImageProcessor)
+          .with(Peribot::GroupMe::ImagePostprocessor)
 
         expect(bot.sender).to receive(:register)
           .with(Peribot::GroupMe::UserSender)

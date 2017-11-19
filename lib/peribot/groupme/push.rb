@@ -53,7 +53,7 @@ module Peribot
           {
             service: :groupme,
             group: "groupme/#{message['group_id']}",
-            text: message['text'],
+            text: message['text'] || '',
             user_name: message['name'],
             id: message['id'],
             attachments: convert_attachments(message['attachments']),

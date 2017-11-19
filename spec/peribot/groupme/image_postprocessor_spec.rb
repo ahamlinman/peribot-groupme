@@ -2,10 +2,10 @@ require 'spec_helper'
 require 'webmock/rspec'
 require 'json'
 
-describe Peribot::GroupMe::ImageProcessor do
+describe Peribot::GroupMe::ImagePostprocessor do
   include_context 'standard doubles'
 
-  let(:instance) { Peribot::GroupMe::ImageProcessor.new bot }
+  let(:instance) { Peribot::GroupMe::ImagePostprocessor.new bot }
   let(:image) { File.new File.expand_path('../../fixtures/wow.jpg', __dir__) }
   let(:upload_result) do
     { 'payload' => { 'url' => 'http://i.groupme.com/123456789' } }
@@ -38,7 +38,8 @@ describe Peribot::GroupMe::ImageProcessor do
           group: 'groupme/1',
           text: 'From a GroupMe URL!',
           attachments: [
-            { kind: :image, image: 'http://i.groupme.com/123456789' }]
+            { kind: :image, image: 'http://i.groupme.com/123456789' }
+          ]
         }
       end
 

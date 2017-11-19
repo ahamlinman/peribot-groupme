@@ -1,15 +1,15 @@
 require 'spec_helper'
 require 'shared_context/standard_doubles'
 
-describe Peribot::GroupMe::BotFilterPreprocessor do
+describe Peribot::GroupMe::BotFilter do
   include_context 'standard doubles'
 
-  let(:instance) { Peribot::GroupMe::BotFilterPreprocessor.new bot }
+  let(:instance) { Peribot::GroupMe::BotFilter.new bot }
 
   describe '.register_into' do
     it 'registers the preprocessor into the correct chain' do
       bot.use described_class
-      expect(bot.preprocessor.list).to include(described_class)
+      expect(bot.filter.list).to include(described_class)
     end
   end
 

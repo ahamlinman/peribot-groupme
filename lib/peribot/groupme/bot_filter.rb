@@ -1,13 +1,13 @@
 module Peribot
   module GroupMe
-    # A preprocessor that filters out all messages that we cannot respond to
-    # while in bot sender mode. This includes all messages from groups that do
-    # not have a bot in them that we can use to respond according to our bot
-    # mapping (whether manually configured or automatically generated).
-    class BotFilterPreprocessor < Peribot::Processor
-      # Register ourself into a bot's preprocessor chain.
+    # A filter that drops all messages we cannot respond to while in bot sender
+    # mode. This includes all messages from groups that don't have a bot
+    # available in the bot mapping (whether manually configured or
+    # automatically generated).
+    class BotFilter < Peribot::Processor
+      # Register ourself into a bot's filter chain.
       def self.register_into(bot)
-        bot.preprocessor.register self
+        bot.filter.register self
       end
 
       # Filter out messages that we cannot respond to, while passing through
