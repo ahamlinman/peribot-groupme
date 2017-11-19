@@ -8,6 +8,8 @@ progress this project adheres to a form of Semantic Versioning (see README.md).
 [Keep a Changelog]: http://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
+
+## [0.10.0] - 2017-11-19
 ### Added
 - Changelog for all notable modifications going forward.
 
@@ -21,3 +23,4 @@ progress this project adheres to a form of Semantic Versioning (see README.md).
   GroupMe web app) no longer cause exceptions in Peribot::Service.
 
 [Unreleased]: https://github.com/ahamlinman/peribot/compare/0.9.0...HEAD
+[0.10.0]: https://github.com/ahamlinman/peribot/compare/0.9.0...0.10.0
