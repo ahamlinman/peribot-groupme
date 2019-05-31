@@ -1,3 +1,19 @@
+**Peribot is no longer in active development.** Its components are kept on
+GitHub in the hope that they may be useful to others, but please keep in mind
+that they have not been maintained for some time, and may fail to operate as
+originally intended.
+
+**Why?** Peribot was developed as a basis for some GroupMe chatbots that I
+personally operated. Those bots are rarely used anymore, and Peribot is not
+used elsewhere to my knowledge. Thus, I no longer have much reason to invest in
+this project.
+
+Thank you for your interest, and sorry for the bad news. The Peribot::GroupMe
+README continues below, but please note that parts of it may become outdated
+over time.
+
+---
+
 # Peribot::GroupMe
 
 Peribot::GroupMe allows [Peribot]-powered bots to easily send and receive
@@ -42,11 +58,6 @@ your bot (with fake values):
       token: 09f911029d74e35bd84156c5635688c0
       bot_map:
         '12345678': 82ef4009ed7cac2a5ee12b5f8e8ad9a0
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at
-https://github.com/ahamlinman/peribot-groupme.
 
 ## License
 
